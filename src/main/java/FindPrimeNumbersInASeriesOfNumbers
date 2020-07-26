@@ -1,0 +1,86 @@
+package javaWorking;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.math3.primes.Primes;
+
+public class FindPrimeInNumberSeries {
+
+	public static void main(String[] args) {
+
+		String input = "403198305";
+		FindPrimeInNumberSeries pn = new FindPrimeInNumberSeries();
+		//calling splitNumbers() to split the input and form a number series.
+		String[] inputNumberArray = pn.splitNumbers(input);
+		System.out.print("Input: "+input+" -> ");
+		//call the method isPrime() to check if the numbers of the newly formed series is prime or not.
+		Set<Integer> primeSeries = pn.isPrime(inputNumberArray);
+		System.out.print("Output"+primeSeries);
+	}
+	
+	//splits the given input to charArray at first an then forms a seris (Say for ex: if the input numer is 123
+	//then this  method generates a series as 1,12,123,2,23,3. This series will be stored in the String[] inputNumberArray
+	//and returned back to the calling object.
+	public String[] splitNumbers(String input)
+	{
+		char[] inputCharArray = input.toCharArray();
+		String[] inputNumberArray = new String[inputCharArray.length*inputCharArray.length];
+		String concat = "";
+		int start = 0, iPosition=0;
+		while(start < inputNumberArray.length)
+		{
+			for (int i = start; i < inputCharArray.length; i++) 
+			{
+				concat = concat+inputCharArray[i];
+				if(concat != null)
+				{
+					inputNumberArray[iPosition] = concat;
+				}
+				iPosition = iPosition+1;
+			}
+			start = start+1;
+			concat = "";
+		}
+		return inputNumberArray;
+	}
+	
+	public Set<Integer> isPrime(String[] inputNumberArray)
+	{
+		int[] intInputNumberArray = new int[inputNumberArray.length];
+		for (int i = 0; i < inputNumberArray.length; i++) 
+		{
+			if(inputNumberArray[i] != null)
+			{
+				intInputNumberArray[i] = Integer.parseInt(inputNumberArray[i]);
+			}
+		}
+		
+		Set<Integer> outPutList = new LinkedHashSet<Integer>();
+		boolean isPrime = false;
+		for (int i = 0; i < intInputNumberArray.length; i++) 
+		{
+		
+			for (int j = 2; j < intInputNumberArray[i]; j++) 
+			{
+				if(intInputNumberArray[i]%j == 0)
+				{
+					isPrime = false;
+					break;
+				}
+				else
+				{
+					isPrime = true;
+				}
+			}
+			if(isPrime == true && intInputNumberArray[i]!=0)
+			{
+				outPutList.add(intInputNumberArray[i]);
+			}
+		}
+		return outPutList;
+	}
+}
+
